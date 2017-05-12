@@ -10,3 +10,4 @@ php:
 
 before_script:
   - composer install --no-dev
+  - composer require phpunit/phpunit:4.8.*
