@@ -16,6 +16,8 @@ abstract class Element
 
     protected $attributes = [];
 
+    abstract public function __construct();
+
     protected function flattenAttributes()
     {
         $tmp = [];
@@ -31,12 +33,11 @@ abstract class Element
         if (is_array($attributes)) {
             $tmp = [];
             foreach ($attributes as $key => $value) {
-                if ($this->validateAttribute($key)) {
-                    $tmp["{$key}"] = $value;
+                if (!$this->validateAttribute($key)) {
+                    return false;
                 }
             }
-            $this->attributes = $this->createData($tmp);
-            return null;
+            return true;
         }
 
         $allowedAttributes = array_merge($this->optionalAttributes, $this->requiredAttributes);
@@ -93,18 +94,24 @@ abstract class Element
     }
 
     /**
-     * @return array
+     * @param string $name Name of attribute. Return all if null
+     * @return \stdClass
      */
-    public function getAttributes()
+    public function getAttribute($name = null)
     {
-        return $this->attributes;
+        if ($name == null) {
+            return $this->createData($this->attributes);
+        } else {
+            return $this->createData($this->attributes->$name);
+        }
     }
 
     /**
-     * @param string $val
+     * @param string $attribute Name of attribute
+     * @param string $val Value
      */
-    public function setAttributes($prop, $val)
+    public function setAttributes($attribute, $val)
     {
-        $this->attributes[$prop] = $val;
+        $this->attributes["{$attribute}"] = $val;
     }
 }

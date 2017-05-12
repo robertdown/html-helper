@@ -81,17 +81,12 @@ class Script extends Element
     {
         $atts = (count($this->attributes) > 0) ? " " . $this->flattenAttributes() : "";
         $template = "<script src=\"{$this->src}\"{$atts}></script>";
-        echo $template;
+        return $template;
     }
 
     public function setType($type)
     {
         $this->type = $type;
-    }
-
-    public function setSrc($src)
-    {
-        $this->src = $src;
     }
 
     public function getSrc()
