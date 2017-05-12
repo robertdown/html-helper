@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/robertdown/html-helper.svg?branch=master)](https://travis-ci.org/robertdown/html-helper)
+
 # HTML Helper
 
 HTML Helper is a library for easier maintenance of commonly used HTML elements

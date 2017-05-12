@@ -17,5 +17,7 @@
             "email": "robertdown@live.com"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/options-resolver": "2.8.20"
+    }
 }
