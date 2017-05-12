@@ -25,27 +25,28 @@ use rdown\HtmlHelper\Element;
 class Script extends Element
 {
 
-    private $events = [
-        'onload',
-        'onunload',
-        'onclick',
-        'ondblclick',
-        'onmousedown',
-        'onmouseup',
-        'onmouseover',
-        'onmouseover',
-        'onmousemove',
-        'onmouseout',
-        'onfocus',
-        'onblur',
-        'onkeypress',
-        'onkeydown',
-        'onkeyup',
-        'onsubmit',
-        'onreset',
-        'onselect',
-        'onchange',
-    ];
+    /** @TODO For future use */
+//    private $events = [
+//        'onload',
+//        'onunload',
+//        'onclick',
+//        'ondblclick',
+//        'onmousedown',
+//        'onmouseup',
+//        'onmouseover',
+//        'onmouseover',
+//        'onmousemove',
+//        'onmouseout',
+//        'onfocus',
+//        'onblur',
+//        'onkeypress',
+//        'onkeydown',
+//        'onkeyup',
+//        'onsubmit',
+//        'onreset',
+//        'onselect',
+//        'onchange',
+//    ];
 
     /* @var string */
     private $type = "text/javascript";
@@ -56,6 +57,15 @@ class Script extends Element
      */
     private $src = false;
 
+    /**
+     * Script constructor.
+     *
+     * Define a required `$src` string and optional `$attributes` array
+     *
+     * @param null $src
+     * @param array|null $attributes
+     * @throws \Exception
+     */
     public function __construct($src = null, array $attributes = null)
     {
         if ($src) {
@@ -77,6 +87,11 @@ class Script extends Element
         }
     }
 
+    /**
+     * Return a finished HTML5 element string.
+     *
+     * @return string
+     */
     public function render()
     {
         $atts = (count($this->attributes) > 0) ? " " . $this->flattenAttributes() : "";
@@ -84,13 +99,32 @@ class Script extends Element
         return $template;
     }
 
+    /**
+     * Set the type (If updating the type since this has a default value.
+     *
+     * @param string $type
+     */
     public function setType($type)
     {
         $this->type = $type;
     }
 
+    /**
+     * Set the src (If updating the src since this is required upon instantiation.
+     *
+     * @param string $src
+     */
+    public function setSrc($src)
+    {
+        $this->src = $src;
+    }
+
+    /**
+     * @return string
+     */
     public function getSrc()
     {
         return $this->src;
     }
+
 }

@@ -7,6 +7,7 @@
 
 namespace rdown\HtmlHelper\Scripts;
 
+use rdown\HtmlHelper\ElementCollection;
 use rdown\HtmlHelper\Scripts\Script;
 
 /**
@@ -17,49 +18,29 @@ use rdown\HtmlHelper\Scripts\Script;
  * @author Robert Down <robertdown@live.com>
  * @copyright Copyright (C) 2017 Robert Down
  */
-class ScriptCollection implements \IteratorAggregate
+class ScriptCollection extends ElementCollection
 {
-
-    /** @var array */
-    private $scripts = [];
-
-    /** @var string */
-    private $baseUri;
 
     public function __construct($baseUri = '/', array $attributes = null)
     {
-        // @todo: Add ability to waterfall attributes down to any Script in collection is arg present in constructor
-        $this->baseUri = $baseUri;
+        parent::__construct($baseUri, $attributes);
     }
 
     /**
-     * @param $script Script
+     * @param $file Script|string
      * @throws \Exception
      */
-    public function addScript($script)
+    public function addFile($file)
     {
-        if (is_string($script)) {
-            $this->scripts[] = new Script($this->baseUri . $script);
-        } elseif (is_object($script) && (get_class($script) == 'rdown\\HtmlHelper\\Scripts\\Script')) {
-            $script->setSrc($this->baseUri . $script->getSrc());
-            $this->scripts[] = $script;
+        if (is_string($file)) {
+            $this->files[] = new Script($this->baseUri . $file);
+        } elseif (is_object($file) && (get_class($file) == 'rdown\\HtmlHelper\\Scripts\\Script')) {
+            $file->setSrc($this->baseUri . $file->getSrc());
+            $this->files[] = $file;
         } else {
-            throw new \Exception('Parameter must be string or Script object');
+            throw new \InvalidArgumentException('Parameter must be string or Script object');
         }
     }
 
-    public function render()
-    {
-        foreach ($this->getIterator() as $script) {
-            echo $script->render() . "\n";
-        }
-    }
 
-    /**
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->scripts);
-    }
 }

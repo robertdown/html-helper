@@ -24,8 +24,8 @@ class ScriptTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateScript()
     {
-//        $script = new Script('text/javascript');
-//        $this->assertInstanceOf("Script", $script);
+        $script = new Script('text/javascript');
+        $this->assertInstanceOf("rdown\HtmlHelper\Scripts\Script", $script);
 
         $fail = new Script();
     }
@@ -33,7 +33,40 @@ class ScriptTest extends PHPUnit_Framework_TestCase
     public function testCreateScriptWithNoAttributes()
     {
         $script = new Script('filename.js');
-//        $this->assertEquals($script->getAttribute(), []);
+        $this->assertEquals($script->getAttribute(), (object) []);
+    }
+
+    public function testSetSrc()
+    {
+        $expected = 'updated';
+        $script = new Script('originalSrc');
+        $script->setSrc($expected);
+
+        $reflection = new ReflectionClass('rdown\HtmlHelper\Scripts\Script');
+        $property = $reflection->getProperty('src');
+        $property->setAccessible(true);
+
+        $this->assertEquals($expected, $property->getValue($script));
+    }
+
+    public function testGetSrc()
+    {
+        $expected = 'src';
+        $script = new Script($expected);
+        $this->assertEquals($expected, $script->getSrc());
+    }
+
+    public function testType()
+    {
+        $expected = 'updated';
+        $script = new Script('src');
+        $script->setType($expected);
+
+        $reflection = new ReflectionClass('rdown\HtmlHelper\Scripts\Script');
+        $property = $reflection->getProperty('type');
+        $property->setAccessible(true);
+
+        $this->assertEquals($expected, $property->getValue($script));
     }
 
     public function testCreateScriptObjectWithAttributes()
